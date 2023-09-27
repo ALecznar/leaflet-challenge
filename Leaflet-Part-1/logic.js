@@ -10,24 +10,24 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 fetch("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson")
     .then(response => response.json())
     .then(data => {
-        // Loop through the features array
+        // Loop 
         for (var i = 0; i < data.features.length; i++) {
             var feature = data.features[i];
             var coordinates = feature.geometry.coordinates;
             var magnitude = feature.properties.mag;
             var depth = coordinates[2];
 
-            // Create a circle with color and size based on depth and magnitude
+            // Create a circle 
             L.circle([coordinates[1], coordinates[0]], {
                 fillOpacity: 0.75,
-                color: depthColor(depth), // function to determine color
+                color: depthColor(depth),
                 fillColor: depthColor(depth),
-                radius: magnitude * 10000  // Radius based on magnitude
+                radius: magnitude * 10000  
             }).bindPopup("<h3>Location: " + feature.properties.place + "</h3><hr><h4>Magnitude: " + magnitude + "</h4><h4>Depth: " + depth + "</h4>").addTo(myMap);
         }
     });
 
-// Color based on depth 
+// Color
 function depthColor(depth) {
     return depth > 90 ? '#800026' :
            depth > 70 ? '#BD0026' :
@@ -37,14 +37,14 @@ function depthColor(depth) {
                         '#FFEDA0';
 }
 
-// egend (Syling in the css file)
+// egend
 var legend = L.control({
     position: "bottomright"
 });
 
 legend.onAdd = function() {
     var div = L.DomUtil.create("div", "legend"),
-        depth = [-10, 10, 30, 50, 70, 90], // Depth categories
+        depth = [-10, 10, 30, 50, 70, 90], 
         labels = [];
 
     for (var i = 0; i < depth.length; i++) {
@@ -56,5 +56,5 @@ legend.onAdd = function() {
     return div;
 };
 
-// Add Legend to the map
+// Add Legend
 legend.addTo(myMap);
